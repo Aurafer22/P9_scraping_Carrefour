@@ -29,7 +29,7 @@ const scraper = async (url, word) => {
   await page.waitForSelector('.ebx-result__wrapper', {
     visible: true
   })
-  await getProducts(page, word)
+  await getProducts(page)
   browser.close()
 }
 

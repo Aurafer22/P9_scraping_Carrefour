@@ -18,5 +18,3 @@ const getProducts = async (page) => {
   )
 }
 module.exports = { getProducts }
-
-// `const results = ${JSON.stringify(products)}`

@@ -3,6 +3,7 @@ const Product = require('../models/products')
 
 const insertProducts = async (req, res) => {
   try {
+    await Product.collection.drop()
     await Product.insertMany(listProducts)
     return res.status(200).json('¡Products insertados en la BBDD!')
   } catch (error) {
