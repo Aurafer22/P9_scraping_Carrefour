@@ -1,3 +1,3 @@
 const { scraper } = require('./scraper')
 
-scraper(`https://www.carrefour.es/`, 'ibericos')
+scraper(`https://www.carrefour.es/`, 'fruta')

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "scrap": "node ./src/utils/scraperLaunch.js"
+    "scrap": "node ./src/utils/scraperLaunch.js",
+    "pim": "node ./src/api/controllers/products.js"
   },
   "keywords": [],
   "author": "",

@@ -1,13 +1,14 @@
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const { scrollProducts } = require('./scrollProducts')
+const { getProducts } = require('./getProducts')
 puppeteer.use(StealthPlugin())
 
 const scraper = async (url, word) => {
   const browser = await puppeteer.launch({ headless: false, slowMo: 200 })
   const page = await browser.newPage()
   const newUrl = `${url}?q=${word}`
-  await page.goto(newUrl, { waitUntil: 'domcontentloaded' })
+  await page.goto(newUrl, { waitUntil: 'load' })
   await page.setViewport({ width: 1200, height: 1024 })
   const acceptCookies = await page.waitForSelector(
     '#onetrust-accept-btn-handler'
@@ -24,28 +25,11 @@ const scraper = async (url, word) => {
   //   { delay: 100 }
   // )
   // await page.keyboard.press('Enter')
-  await page.waitForNavigation({ waitUntil: 'load' })
-
+  await scrollProducts(page)
   await page.waitForSelector('.ebx-result__wrapper', {
     visible: true
   })
-
-  await scrollProducts(page)
-
-  const products = await page.$$eval('.ebx-result__wrapper', (elements) =>
-    elements.map((el) => ({
-      img: el.querySelector('img')?.src || 'No image',
-      name: el.querySelector('h1')?.textContent.trim() || 'No name',
-      price:
-        el
-          .querySelector('.ebx-result-price.ebx-result__price')
-          ?.textContent.trim() || 'No price'
-    }))
-  )
-
-  console.log(products.length)
-  console.log(products)
-
+  await getProducts(page, word)
   browser.close()
 }
 
